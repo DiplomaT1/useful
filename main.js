@@ -8,3 +8,5 @@ nextArrow: slickInduvidual.next().find('.right'),
 prevArrow: slickInduvidual.next().find('.left')
 });
 })
+
+console.log('try');
