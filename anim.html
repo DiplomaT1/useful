@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="bla">
+        
+    </canvas>
+
+    <script>
+        let t = 0;
+        let canvas = document.getElementById('bla');
+        canvas.width = 800;
+        canvas.height = 600;
+        let ctx = canvas.getContext('2d');
+
+
+
+        function draw(){
+            t++;
+            ctx.clearRect(0,0,800,600);
+
+            // ctx.fillRect(,100,100);
+
+            ctx.beginPath();
+                ctx.moveTo(10 + 5*Math.sin(t/10),10 + 5*Math.cos(t/10));
+                ctx.lineTo(100 + 50*Math.sin(t/100),100 + 50*Math.cos(t/100));
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.beginPath();
+                ctx.arc(10 + 5*Math.sin(t/10),10 + 5*Math.cos(t/10), 5, 0, 2 * Math.PI);
+                ctx.arc(100 + 50*Math.sin(t/100),100 + 50*Math.cos(t/100), 5, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.fill();
+            window.requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
