@@ -12,30 +12,51 @@
     <script>
         let t = 0;
         let canvas = document.getElementById('bla');
-        canvas.width = 800;
-        canvas.height = 600;
+        canvas.width = 1000;
+        canvas.height = 800;
         let ctx = canvas.getContext('2d');
 
 
 
+
+
+        function x1(t) {
+            return Math.round(0.25*canvas.width + 50*Math.cos(Math.pow(Math.PI, 2)*t));
+        }
+        function y1(t) {
+            return Math.round(0.5*canvas.height + 50*Math.sin(Math.pow(Math.PI, 2)*t));
+        }
+        function x2(t) {
+            return Math.round(0.75*canvas.width) + (50*Math.cos(2*Math.pow(Math.PI, 2)*t));
+        }
+        function y2(t) {
+            return Math.round(0.5*canvas.height + 50*Math.sin(2*Math.pow(Math.PI, 2)*t));
+        }
+
+            // t =  t/1000;
         function draw(){
-            t++;
-            ctx.clearRect(0,0,800,600);
+            // console.log();
+            // t++;
+            // t = 500
+
+            // console.log(y1(t));
+            ctx.clearRect(0,0,1000,800);
 
             // ctx.fillRect(,100,100);
 
             ctx.beginPath();
-                ctx.moveTo(10 + 5*Math.sin(t/10),10 + 5*Math.cos(t/10));
-                ctx.lineTo(100 + 50*Math.sin(t/100),100 + 50*Math.cos(t/100));
+                ctx.moveTo(x1(t/500),y1(t));
+                ctx.lineTo(x2(t/500),y2(t));
             ctx.closePath();
             ctx.stroke();
 
             ctx.beginPath();
-                ctx.arc(10 + 5*Math.sin(t/10),10 + 5*Math.cos(t/10), 5, 0, 2 * Math.PI);
-                ctx.arc(100 + 50*Math.sin(t/100),100 + 50*Math.cos(t/100), 5, 0, 2 * Math.PI);
+                ctx.arc(x1(t),y1(t), 5, 0, 2 * Math.PI);
+                ctx.arc(x2(t),y2(t), 5, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.fill();
             window.requestAnimationFrame(draw);
+            return t++;
         }
         draw();
     </script>
