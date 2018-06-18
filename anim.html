@@ -13,52 +13,103 @@
         let t = 0;
         let canvas = document.getElementById('bla');
         canvas.width = 1000;
-        canvas.height = 800;
+        canvas.height = 1000;
         let ctx = canvas.getContext('2d');
-
+        let m = 2000;
+        let delay = 500;
 
 
 
 
         function x1(t) {
-            return Math.round(0.25*canvas.width + 50*Math.cos(Math.pow(Math.PI, 2)*t));
+            return Math.round(0.25*canvas.width + 50*Math.cos(Math.pow(Math.PI, 2)*t/200));
         }
         function y1(t) {
-            return Math.round(0.5*canvas.height + 50*Math.sin(Math.pow(Math.PI, 2)*t));
+            return Math.round(0.5*canvas.height + 50*Math.sin(Math.pow(Math.PI, 2)*t/200));
         }
         function x2(t) {
-            return Math.round(0.75*canvas.width) + (50*Math.cos(2*Math.pow(Math.PI, 2)*t));
+            return Math.round(0.75*canvas.width + 50*Math.cos(2*Math.pow(Math.PI, 2)*t/200));
         }
         function y2(t) {
-            return Math.round(0.5*canvas.height + 50*Math.sin(2*Math.pow(Math.PI, 2)*t));
+            return Math.round(0.5*canvas.height + 50*Math.sin(2*Math.pow(Math.PI, 2)*t/200));
         }
 
-            // t =  t/1000;
-        function draw(){
-            // console.log();
-            // t++;
-            // t = 500
 
-            // console.log(y1(t));
-            ctx.clearRect(0,0,1000,800);
+            
+        function lerp(a, b, t){
+            t = t < 0 ? 0 : t;
+            t = t > 1 ? 1 : t;
+            return a+(b-a)*t;            
+        }
+        
+        function coordX(delay, m) {
+            var tt = 1 * t / m;
+            var x = Math.round(lerp(x1(t - delay * tt), x2(t), tt));
+            // var y = Math.round(lerp(y1(t - delay * tt), y2(t), tt));
+            return x;
+        }
+        function coordY(delay, m) {
+            var tt = 1 * t / m;
+            // var x = Math.round(lerp(x1(t - delay * tt), x2(t), tt));
+            var y = Math.round(lerp(y1(t - delay * tt), y2(t), tt));
+            return y;
+        }
 
-            // ctx.fillRect(,100,100);
 
-            ctx.beginPath();
-                ctx.moveTo(x1(t/500),y1(t));
-                ctx.lineTo(x2(t/500),y2(t));
-            ctx.closePath();
-            ctx.stroke();
+        function draw() {            
+
+            ctx.clearRect(0,0,1000,1000);
+            let tt = 1 * t/m;
+            for (let i = 0; i <= m; i++) {
+                let tt = 1.0 * i / m;
+                // console.log(xxx(500, 2000));
+                let x = coordX(500, 2000);
+                let y = coordY(500, 2000);
+                // console.log();
+                // let coords = coordinates(500, 2000);
+                // let coords = coords();
+                // console.log(coords);
+                // ctx.fillRect(x, y, 2, 4);
+                ctx.beginPath();
+                ctx.arc(x, y, 1.4, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.closePath();
+                
+            }
+            for (let i = 0; i <= m; i++) {
+                let m = 400;
+                let tt = 1.0 * i / m;
+                let delay = 3000;
+                var x = Math.round(lerp(x1(t - delay * tt), x2(t), tt));
+                var y = Math.round(lerp(y1(t - delay * tt), y2(t), tt));
+                // ctx.fillRect(x - 50, y - 200, 1, 2);
+                ctx.beginPath();
+                ctx.arc(x - 50, y - 200, 1, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.closePath();
+                                
+            }
+            
+       
+            
+            
 
             ctx.beginPath();
                 ctx.arc(x1(t),y1(t), 5, 0, 2 * Math.PI);
-                ctx.arc(x2(t),y2(t), 5, 0, 2 * Math.PI);
+                ctx.arc(x2(t), y2(t), 5, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.fill();
+           
+            
             window.requestAnimationFrame(draw);
+            // if(t>m) {
+            //     t = 0;
+            // }
             return t++;
         }
-        draw();
+        
+            draw();
+        
     </script>
 </body>
 </html>
